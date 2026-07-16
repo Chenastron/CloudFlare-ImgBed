@@ -28,7 +28,7 @@ jobs:
 
     steps:
       - name: Checkout target repo
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: main
           fetch-depth: 0
@@ -50,7 +50,12 @@ jobs:
           upstream_sync_repo: MarSeventh/CloudFlare-ImgBed
           upstream_sync_branch: main
           target_sync_branch: main
-          target_repo_token: ${{ secrets.GITHUB_TOKEN }}
+          target_repo_token: ${{ secrets.PAT_WORKFLOW }}
+
+          # Use rebase for linear history
+          git_config_pull_rebase: true
+          # Force push is required when using rebase (rewrites commit SHAs)
+          target_branch_push_args: --force
           test_mode: false
 
       - name: Complete breaking update notices
